@@ -3,6 +3,14 @@
 {% set software = pillar['software'] %}
 {% set software_config = software.get('config', {}) %}
 
+{% if salt['file.directory_exists']('/var/cache/venv-salt-minion/freezer') %}
+{% set freezer_path = "/var/cache/venv-salt-minion/freezer/" %}
+{% else %}
+{% set freezer_path = "/var/cache/salt/minion/freezer/" %}
+{% endif %}
+
+
+
 {{ macros.log('module', 'freeze_chroot') }}
 freeze_chroot:
   module.run:
@@ -10,7 +18,7 @@ freeze_chroot:
       - name: yomi-chroot
       - includes: [pattern]
       - root: /mnt
-    - unless: "[ -e /var/cache/salt/minion/freezer/yomi-chroot-pkgs.yml ]"
+    - unless: "[ -e {{ freezer_path }}/yomi-chroot-pkgs.yml ]"
 
 {{ macros.log('pkg', 'install_python3-base') }}
 install_python3-base:
