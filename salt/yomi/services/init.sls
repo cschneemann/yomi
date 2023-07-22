@@ -14,9 +14,8 @@ include:
 {{ macros.log('module', 'enable_service_' ~ service) }}
 enable_service_{{ service }}:
   module.run:
-    - chroot.call:
+    - service.enable:
       - root: /mnt
-      - function: service.enable
       - name: {{ service }}
     - unless: systemctl --root=/mnt --quiet is-enabled {{ service }} 2> /dev/null
 {% endfor %}
@@ -25,9 +24,8 @@ enable_service_{{ service }}:
 {{ macros.log('module', 'disable_service_' ~ service) }}
 disable_service_{{ service }}:
   module.run:
-    - chroot.call:
+    - service.disable:
       - root: /mnt
-      - function: service.disable
       - name: {{ service }}
     - onlyif: systemctl --root=/mnt --quiet is-enabled {{ service }} 2> /dev/null
 {% endfor %}

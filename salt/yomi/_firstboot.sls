@@ -7,9 +7,8 @@
 {{ macros.log('module', 'systemd_firstboot') }}
 systemd_firstboot:
   module.run:
-    - chroot.call:
+    - service.firstboot:
       - root: /mnt
-      - function: service.firstboot
       - locale: {{ config.get('locale', 'en_US.utf8') }}
 {% if config.get('locale_messages') %}
       - locale_message: {{ config['locale_messages'] }}
