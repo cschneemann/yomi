@@ -4,7 +4,7 @@
 
 {% if networks %}
   {% for network in networks %}
-create_ifcfg_{{ network.interface }}:
+config create_ifcfg_{{ network.interface }}:
   file.append:
     - name: /mnt/etc/sysconfig/network/ifcfg-{{ network.interface }}
     - text: |
@@ -23,7 +23,7 @@ create_ifcfg_{{ network.interface }}:
 
   {% for interface in interfaces_except_lo %}
 {{ macros.log('file', 'create_ifcfg_' ~ interface) }}
-create_ifcfg_{{ interface }}:
+create_ifcfg_{{ interface }} unless_persistent-net-generator:
   file.append:
     - name: /mnt/etc/sysconfig/network/ifcfg-{{ interface }}
     - text: |
@@ -34,7 +34,7 @@ create_ifcfg_{{ interface }}:
     - unless: "[ -e /mnt/usr/lib/udev/rules.d/75-persistent-net-generator.rules ]"
 
 {{ macros.log('file', 'create_ifcfg_eth' ~ loop.index0) }}
-create_ifcfg_eth{{ loop.index0 }}:
+create_ifcfg_eth{{ loop.index0 }} if_persistent-net-generator:
   file.append:
     - name: /mnt/etc/sysconfig/network/ifcfg-eth{{ loop.index0 }}
     - text: |
