@@ -58,6 +58,9 @@ add_repository_{{ alias }}:
     - priority: {{ repository.get('priority', 0) }}
     - gpgcheck: {{ repository.get('gpgcheck', software_config.get('gpgcheck', 'yes')) }}
     - gpgautoimport: {{ repository.get('gpgautoimport', software_config.get('gpgautoimport', 'yes')) }}
+  {% if repository.get('gpgkey') %}
+    - gpgkey: {{ repository.get('gpgkey') }}
+  {% endif %}
     - cache: {{ repository.get('cache', software_config.get('cache', 'no')) }}
     - root: /mnt
     - require:
