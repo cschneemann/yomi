@@ -2,7 +2,6 @@
 
 {% set salt_minion = pillar['salt-minion'] %}
 
-checken ob im image venv-salt-minion und auch ob im ziel
 {% if salt['file.directory_exists']('/var/cache/venv-salt-minion') %}
 {% set src_cache_path = "/var/cache/venv-salt-minion" %}
 {% else %}
