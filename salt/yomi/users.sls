@@ -18,9 +18,8 @@ create_user_{{ user.username }}:
 # because bsc#1167909
 set_password_user_{{ user.username }}:
   module.run:
-    - chroot.call:
+    - shadow.set_password:
       - root: /mnt
-      - function: shadow.set_password
       - name: {{ user.username }}
       - password: "'{{ user.password }}'"
       - use_usermod: yes
