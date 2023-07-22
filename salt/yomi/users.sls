@@ -30,9 +30,8 @@ set_password_user_{{ user.username }}:
 {{ macros.log('module', 'add_certificate_user_' ~ user.username ~ '_' ~ loop.index) }}
 add_certificate_user_{{ user.username }}_{{ loop.index }}:
   module.run:
-    - chroot.call:
+    - ssh.set_auth_key:
       - root: /mnt
-      - function: ssh.set_auth_key
       - user: {{ user.username }}
       - key: "'{{ certificate }}'"
     - unless: grep -q '{{ certificate }}' /mnt/{{ 'home/' if user.username != 'root' else '' }}{{ user.username }}/.ssh/authorized_keys
