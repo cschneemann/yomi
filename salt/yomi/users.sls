@@ -31,7 +31,7 @@ set_password_user_{{ user.username }}:
 add_certificate_user_{{ user.username }}_{{ loop.index }}:
   module.run:
     - ssh.set_auth_key:
-      - root: /mnt
+      - config: /mnt/{{ 'home/' if user.username != 'root' else '' }}{{ user.username }}/.ssh/authorized_keys
       - user: {{ user.username }}
       - key: "'{{ certificate }}'"
     - unless: grep -q '{{ certificate }}' /mnt/{{ 'home/' if user.username != 'root' else '' }}{{ user.username }}/.ssh/authorized_keys
