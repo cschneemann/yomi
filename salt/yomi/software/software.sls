@@ -3,6 +3,12 @@
 {% set software = pillar['software'] %}
 {% set software_config = software.get('config', {}) %}
 
+rebuild rpm db:
+  cmd.run:
+    - name: rpm --rebuilddb
+    - root: /mnt
+
+
 {% if software_config.get('minimal') %}
 {{ macros.log('file', 'config_zypp_minimal_host') }}
 config_zypp_minimal_host:
