@@ -29,7 +29,7 @@ add_fstab_{{ fs_file }}:
     - mount_by: uuid
   {% endif %}
     - mount: no
-    - not_change: yes
+    - not_change: no
     - config: /mnt/etc/fstab
     - require:
       - mount: mount_device_fstab
